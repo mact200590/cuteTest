@@ -5,7 +5,7 @@ import ArticlesContext from '../storage/articlesContext';
 import theme from '../style/style';
 import STRINGS from '../utils/string';
 import LabelButton from './atoms/LabelButton';
-import {DateIcon} from './DateIcon';
+import ItemWithIconAndDate from './ItemWithIconAndDate';
 
 const styles = StyleSheet.create({
   container: {
@@ -52,7 +52,7 @@ const CardResume = ({article}: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.iconDateContainer}>
-        <DateIcon
+        <ItemWithIconAndDate
           date={article.publishedAt}
           icon="start"
           iconColor={

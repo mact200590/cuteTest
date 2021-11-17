@@ -3,7 +3,7 @@ import {StyleSheet, View} from 'react-native';
 import {Button, Paragraph, Card} from 'react-native-paper';
 import ArticlesContext from '../storage/articlesContext';
 import theme from '../style/style';
-import {DateIcon} from './DateIcon';
+import ItemWithIconAndDate from './ItemWithIconAndDate';
 
 const styles = StyleSheet.create({
   container: {
@@ -60,7 +60,7 @@ const CardArticles = ({article, handleNavigator}: Props) => {
         <Card.Cover source={{uri: article.urlToImage}} style={styles.img} />
         <Card.Content>
           <View style={styles.iconDateContainer}>
-            <DateIcon
+            <ItemWithIconAndDate
               date={article.publishedAt}
               icon="start"
               iconColor={
