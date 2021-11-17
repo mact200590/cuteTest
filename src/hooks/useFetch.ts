@@ -1,12 +1,8 @@
 import {useEffect, useState} from 'react';
 
-interface Props {
-  url: string;
-}
-
-export const useFetch = ({url}: Props) => {
+export const useFetch = (url: string) => {
   const [status, setStatus] = useState(false);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Definitions.Article[]>([]);
 
   useEffect(() => {
     if (!url) {

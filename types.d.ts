@@ -11,5 +11,6 @@ declare namespace Definitions {
     urlToImage: string;
     publishedAt: string;
     content: string;
+    isFavorite: boolean;
   };
 }
