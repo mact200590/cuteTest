@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {cardDefaultData} from '../utils/defaultData';
 import CardResume from '../components/CardResume';
+import ArticlesContext from '../storage/articlesContext';
+import {useNavigation} from '@react-navigation/native';
 
 const styles = StyleSheet.create({
   container: {
@@ -11,9 +13,21 @@ const styles = StyleSheet.create({
 });
 
 export const ResumeContainer = () => {
+  const {setOptions} = useNavigation();
+  React.useLayoutEffect(() => {
+    setOptions({
+      headerStyle: {
+        backgroundColor: 'transparent',
+        elevation: 0,
+        shadowOpacity: 0,
+      },
+    });
+  }, [setOptions]);
+  const {currentArticle} = useContext(ArticlesContext);
+
   return (
     <View style={styles.container}>
-      <CardResume article={cardDefaultData} />
+      <CardResume article={(currentArticle as any) || cardDefaultData} />
     </View>
   );
 };
