@@ -1,8 +1,13 @@
 import React from 'react';
-import HomeContainer from '../containers/ResumenContainer';
+import {SafeAreaView} from 'react-native';
+import HomeContainer from '../containers/HomeContainer';
 
 const HomeScreen = () => {
-  return <HomeContainer />;
+  return (
+    <SafeAreaView>
+      <HomeContainer />
+    </SafeAreaView>
+  );
 };
 
 export default HomeScreen;

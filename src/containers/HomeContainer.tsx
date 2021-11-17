@@ -1,8 +1,12 @@
-import React from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import React, {useCallback, useContext, useEffect} from 'react';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {useFetch} from '../hooks/useFetch';
 import CardArticles from '../components/CardArticles';
-
+import ArticlesContext from '../storage/articlesContext';
+import {ActivityIndicator} from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native';
+import {REACT_APP_API} from '@env';
+import STRINGS from '../utils/string';
 const styles = StyleSheet.create({
   iconDateContainer: {
     display: 'flex',
@@ -22,34 +26,65 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 10,
   },
-  scroll: {
+  flatList: {
+    marginBottom: 200,
     marginHorizontal: 24,
+  },
+  indicator: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
   },
 });
 
 export const HomeContainer = () => {
-  const url =
-    'https://newsapi.org/v2/top-headlines?country=cu&language=es&apiKey=33b6de14b85345a8b0142a85128ffe59';
-  const {data, status} = useFetch({url});
+  const {data, status} = useFetch(REACT_APP_API);
+  const {navigate} = useNavigation();
+
+  const {articles, saveAllArticles, saveCurrentArticle} =
+    useContext(ArticlesContext);
+  useEffect(() => {
+    saveAllArticles(data as Definitions.Article[]);
+  }, [data, saveAllArticles]);
+
+  const handleNavigator = useCallback(
+    (article: Definitions.Article) => {
+      saveCurrentArticle(article);
+      navigate('ResumeScreenNav' as never);
+    },
+    [navigate, saveCurrentArticle],
+  );
+
   if (status) {
-    return <Text>Loading...</Text>;
+    return (
+      <View style={styles.indicator}>
+        <ActivityIndicator animating={true} color="blue" />
+      </View>
+    );
   }
   if (!status && !data) {
     return <Text>Error</Text>;
   }
-  console.log('la data es esta mira', data[0]);
   return (
     <View>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Titulares Principales</Text>
+        <Text style={styles.title}>{STRINGS.generals.TITLE}</Text>
       </View>
-      <ScrollView style={styles.scroll}>
-        {data.map((art: Definitions.Article, index: number) => (
-          <View key={index}>
-            <CardArticles articles={art} />
-          </View>
-        ))}
-      </ScrollView>
+      <FlatList
+        initialNumToRender={10}
+        style={styles.flatList}
+        data={articles}
+        keyExtractor={item => item.title}
+        renderItem={({item}) => (
+          <CardArticles
+            key={item.title}
+            article={item}
+            handleNavigator={handleNavigator}
+          />
+        )}
+      />
     </View>
   );
 };

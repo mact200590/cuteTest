@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useCallback, useContext, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Button, Paragraph, Card, Text} from 'react-native-paper';
-import moment from 'moment';
+import {Button, Paragraph, Card} from 'react-native-paper';
+import ArticlesContext from '../storage/articlesContext';
+import theme from '../style/style';
+import {DateIcon} from './DateIcon';
 
 const styles = StyleSheet.create({
   container: {
@@ -15,9 +17,6 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   iconDateContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     marginTop: 20,
     marginBottom: 20,
   },
@@ -36,25 +35,44 @@ const styles = StyleSheet.create({
 });
 
 interface Props {
-  articles: Definitions.Article;
+  article: Definitions.Article;
+  handleNavigator: (article: Definitions.Article) => void;
 }
 
-const CardArticles = ({articles}: Props) => {
+const CardArticles = ({article, handleNavigator}: Props) => {
+  const {markedAsFavorite} = useContext(ArticlesContext);
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const onHandleNavigator = useCallback(() => {
+    handleNavigator(article);
+  }, [article, handleNavigator]);
+
+  const handleOnPressIsFavorite = useCallback(() => {
+    console.log('article', article);
+    setIsFavorite(!isFavorite);
+    markedAsFavorite(article, !isFavorite);
+    console.log('article,isSelect', {article, isSelect: !isFavorite});
+  }, [article, isFavorite, markedAsFavorite]);
+
   return (
     <View>
       <Card style={styles.container} elevation={30}>
-        <Card.Cover source={{uri: articles.urlToImage}} style={styles.img} />
+        <Card.Cover source={{uri: article.urlToImage}} style={styles.img} />
         <Card.Content>
           <View style={styles.iconDateContainer}>
-            <Text style={styles.date}>
-              {moment(articles.publishedAt).format('DD/MM/YYYY')}
-            </Text>
-            <Text>"Icon"</Text>
+            <DateIcon
+              date={article.publishedAt}
+              icon="start"
+              iconColor={
+                isFavorite ? theme.colors.iconColor : theme.colors.disabled
+              }
+              handleOnPress={handleOnPressIsFavorite}
+            />
           </View>
-          <Paragraph style={styles.paragraph}>{articles.title}</Paragraph>
+          <Paragraph style={styles.paragraph}>{article.title}</Paragraph>
         </Card.Content>
         <Card.Actions style={styles.actions}>
-          <Button onPress={() => console.log('dio')}>Leer más...</Button>
+          <Button onPress={onHandleNavigator}>Leer más...</Button>
         </Card.Actions>
       </Card>
     </View>
