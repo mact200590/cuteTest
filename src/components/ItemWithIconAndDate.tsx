@@ -23,15 +23,10 @@ interface Props {
   date: string;
   icon: IconNames;
   iconColor?: string;
-  handleOnPress?: () => void;
+  handleOnPress: () => void;
   id?: string;
 }
-const ItemWithIconAndDate = ({
-  date,
-  icon,
-  iconColor,
-  handleOnPress = () => {},
-}: Props) => {
+const ItemWithIconAndDate = ({date, icon, iconColor, handleOnPress}: Props) => {
   return (
     <View style={styles.iconDateContainer}>
       <Text style={styles.date}>{moment(date).format('DD/MM/YYYY')}</Text>
