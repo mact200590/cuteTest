@@ -7,6 +7,8 @@ import {useFetch} from '../hooks/useFetch';
 import ArticlesContext from '../storage/articlesContext';
 import STRINGS from '../utils/string';
 import {REACT_APP_API} from '@env';
+import theme from '../style/style';
+
 const styles = StyleSheet.create({
   iconDateContainer: {
     display: 'flex',
@@ -74,7 +76,7 @@ export const HomeContainer = () => {
   if (status) {
     return (
       <View style={styles.indicator}>
-        <ActivityIndicator animating={true} color="blue" />
+        <ActivityIndicator animating={true} color={theme.colors.primary} />
       </View>
     );
   }

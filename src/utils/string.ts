@@ -4,6 +4,7 @@ const STRINGS = {
     LINK_EXTERNAL: 'Ver el ariculo completo en la fuente >>',
     TITLE: 'Titulares Principales',
     ERROR: 'Error',
+    READ_MORE: 'Leer más...',
   },
 };
 

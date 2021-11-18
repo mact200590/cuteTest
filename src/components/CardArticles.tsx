@@ -1,8 +1,10 @@
 import React, {useCallback, useContext} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Button, Card, Paragraph} from 'react-native-paper';
+import {Card, Paragraph} from 'react-native-paper';
 import ArticlesContext from '../storage/articlesContext';
 import theme from '../style/style';
+import STRINGS from '../utils/string';
+import LabelButton from './atoms/LabelButton';
 import ItemWithIconAndDate from './ItemWithIconAndDate';
 
 const styles = StyleSheet.create({
@@ -30,7 +32,7 @@ const styles = StyleSheet.create({
   actions: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    textAlign: 'right',
   },
 });
 
@@ -69,8 +71,12 @@ const CardArticles = ({article, handleNavigator}: Props) => {
           </View>
           <Paragraph style={styles.paragraph}>{article.title}</Paragraph>
         </Card.Content>
-        <Card.Actions style={styles.actions}>
-          <Button onPress={onHandleNavigator}>Leer más...</Button>
+        <Card.Actions>
+          <LabelButton
+            fontStyle={styles.actions}
+            onPress={onHandleNavigator}
+            label={STRINGS.generals.READ_MORE}
+          />
         </Card.Actions>
       </Card>
     </View>
