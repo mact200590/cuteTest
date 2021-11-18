@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useLayoutEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {cardDefaultData} from '../utils/defaultData';
 import CardResume from '../components/CardResume';
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 
 export const ResumeContainer = () => {
   const {setOptions} = useNavigation();
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     setOptions({
       headerStyle: {
         backgroundColor: 'transparent',

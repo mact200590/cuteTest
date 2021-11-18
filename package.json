@@ -12,8 +12,6 @@
   "dependencies": {
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/stack": "^6.0.11",
-    "babel-preset-react-native": "^4.0.1",
-    "jest-react-native": "^18.0.0",
     "moment": "^2.29.1",
     "react": "17.0.2",
     "react-native": "0.66.3",
@@ -28,7 +26,7 @@
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
-    "@types/jest": "^26.0.23",
+    "@types/jest": "^27.0.2",
     "@types/react-native": "^0.66.4",
     "@types/react-native-dotenv": "^0.2.0",
     "@types/react-test-renderer": "^17.0.1",
@@ -43,6 +41,9 @@
     "@types/react": "^17"
   },
   "jest": {
+    "setupFiles": [
+      "./src/setup.js"
+    ],
     "preset": "react-native",
     "moduleFileExtensions": [
       "ts",
@@ -51,6 +52,10 @@
       "jsx",
       "json",
       "node"
-    ]
+    ],
+    "transformIgnorePatterns": [],
+    "moduleNameMapper": {
+      ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2|svg)$": "identity-obj-proxy"
+    }
   }
 }

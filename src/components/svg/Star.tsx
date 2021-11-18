@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Svg, {Path, SvgProps} from 'react-native-svg';
+import theme from '../../style/style';
 
 interface Props {
   width?: number;
@@ -9,7 +10,7 @@ interface Props {
 
 function SvgComponent({
   width = 30,
-  fill,
+  fill = theme.colors.disabled,
   height = 30,
   ...props
 }: Props & SvgProps) {

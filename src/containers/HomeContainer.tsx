@@ -47,7 +47,6 @@ export const HomeContainer = () => {
     useContext(ArticlesContext);
   useEffect(() => {
     if (!articles.length) {
-      console.log('Data HomeContainer useEffect ', data);
       saveAllArticles(data as Definitions.Article[]);
     }
   }, [articles.length, data, saveAllArticles]);
