@@ -21,14 +21,14 @@ export function ArticlesContextProvider({children}: Props) {
     () => articles.find(f => f.title === currentArticleId),
     [currentArticleId, articles],
   );
-  function addAllArticles(article: Definitions.Article[]) {
+  function saveAllArticles(article: Definitions.Article[]) {
     setArticles(article);
   }
   function selectCurrentArticleId(titleId: string) {
     setCurrentArticleId(titleId);
   }
 
-  function markAsFavorite(article: Definitions.Article, select: boolean) {
+  function markedAsFavorite(article: Definitions.Article, select: boolean) {
     const temp = articles.map(art => ({
       ...art,
       isFavorite: art.title === article.title ? select : art.isFavorite,
@@ -41,9 +41,9 @@ export function ArticlesContextProvider({children}: Props) {
   const context = {
     articles,
     currentArticle,
-    saveAllArticles: addAllArticles,
+    saveAllArticles,
     selectCurrentArticleId,
-    markedAsFavorite: markAsFavorite,
+    markedAsFavorite,
   };
 
   return (

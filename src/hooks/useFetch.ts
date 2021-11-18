@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react';
 export const useFetch = (url: string) => {
   const [status, setStatus] = useState(false);
   const [data, setData] = useState<Definitions.Article[]>([]);
+  const [isError, setIsError] = useState('');
 
   useEffect(() => {
     if (!url) {
@@ -10,15 +11,20 @@ export const useFetch = (url: string) => {
     }
     const fetchData = async () => {
       setStatus(true);
-      const response = await fetch(url, {
-        method: 'GET',
-      });
-      const jsonResult = await response.json();
-      setData(jsonResult.articles);
+      try {
+        const response = await fetch(url, {
+          method: 'GET',
+        });
+        const jsonResult = await response.json();
+        setData(jsonResult.articles);
+      } catch (error) {
+        setIsError(`${error}`);
+      }
+
       setStatus(false);
     };
     fetchData();
   }, [url]);
 
-  return {status, data};
+  return {isError, status, data};
 };

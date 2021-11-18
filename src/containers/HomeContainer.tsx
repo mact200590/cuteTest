@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useCallback, useContext, useEffect} from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
-import {ActivityIndicator} from 'react-native-paper';
+import {ActivityIndicator, Title} from 'react-native-paper';
 import CardArticles from '../components/CardArticles';
 import {useFetch} from '../hooks/useFetch';
 import ArticlesContext from '../storage/articlesContext';
@@ -37,10 +37,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: '100%',
   },
+  error: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorTitle: {
+    fontSize: 30,
+    display: 'flex',
+    textAlign: 'center',
+  },
 });
 
 export const HomeContainer = () => {
-  const {data, status} = useFetch(REACT_APP_API);
+  const {data, status, isError} = useFetch(REACT_APP_API);
   const {navigate} = useNavigation();
 
   const {articles, saveAllArticles, selectCurrentArticleId} =
@@ -66,8 +78,13 @@ export const HomeContainer = () => {
       </View>
     );
   }
-  if (!status && !data) {
-    return <Text>Error</Text>;
+
+  if (isError) {
+    return (
+      <View style={styles.error}>
+        <Title>{`${STRINGS.generals.ERROR} ${isError}`}</Title>
+      </View>
+    );
   }
   return (
     <View>
