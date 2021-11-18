@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test in <CardArticles> component renders correctly 1`] = `
+exports[`Test in <CardArticles/> component To toMatchSnapshot 1`] = `
 <View>
   <View
     collapsable={false}
