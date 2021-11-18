@@ -1,6 +1,6 @@
-import React, {useCallback, useContext, useState} from 'react';
+import React, {useCallback, useContext} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Button, Paragraph, Card} from 'react-native-paper';
+import {Button, Card, Paragraph} from 'react-native-paper';
 import ArticlesContext from '../storage/articlesContext';
 import theme from '../style/style';
 import ItemWithIconAndDate from './ItemWithIconAndDate';
@@ -41,18 +41,14 @@ interface Props {
 
 const CardArticles = ({article, handleNavigator}: Props) => {
   const {markedAsFavorite} = useContext(ArticlesContext);
-  const [isFavorite, setIsFavorite] = useState(false);
 
   const onHandleNavigator = useCallback(() => {
     handleNavigator(article);
   }, [article, handleNavigator]);
 
   const handleOnPressIsFavorite = useCallback(() => {
-    console.log('article', article);
-    setIsFavorite(!isFavorite);
-    markedAsFavorite(article, !isFavorite);
-    console.log('article,isSelect', {article, isSelect: !isFavorite});
-  }, [article, isFavorite, markedAsFavorite]);
+    markedAsFavorite(article, !article.isFavorite);
+  }, [article, markedAsFavorite]);
 
   return (
     <View>
@@ -64,7 +60,9 @@ const CardArticles = ({article, handleNavigator}: Props) => {
               date={article.publishedAt}
               icon="start"
               iconColor={
-                isFavorite ? theme.colors.iconColor : theme.colors.disabled
+                article.isFavorite
+                  ? theme.colors.iconColor
+                  : theme.colors.disabled
               }
               handleOnPress={handleOnPressIsFavorite}
             />

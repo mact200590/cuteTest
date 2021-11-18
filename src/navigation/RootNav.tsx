@@ -5,21 +5,19 @@ import ResumeScreen from '../screens/ResumeScreen';
 
 const StackNavigator = createStackNavigator();
 
-const RootNav = () => {
-  return (
-    <StackNavigator.Navigator initialRouteName="HomeScreenNav">
-      <StackNavigator.Screen
-        name="HomeScreenNav"
-        component={HomeScreen}
-        options={{headerShown: false}}
-      />
-      <StackNavigator.Screen
-        name="ResumeScreenNav"
-        component={ResumeScreen}
-        options={{title: ''}}
-      />
-    </StackNavigator.Navigator>
-  );
-};
+const RootNav = () => (
+  <StackNavigator.Navigator initialRouteName="HomeScreenNav">
+    <StackNavigator.Screen
+      name="HomeScreenNav"
+      component={HomeScreen}
+      options={{headerShown: false}}
+    />
+    <StackNavigator.Screen
+      name="ResumeScreenNav"
+      component={ResumeScreen}
+      options={{title: ''}}
+    />
+  </StackNavigator.Navigator>
+);
 
 export default RootNav;

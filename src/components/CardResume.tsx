@@ -1,6 +1,6 @@
-import React, {useCallback, useContext, useState} from 'react';
+import React, {useCallback, useContext} from 'react';
 import {Linking, StyleSheet, View} from 'react-native';
-import {Paragraph, Card} from 'react-native-paper';
+import {Card, Paragraph} from 'react-native-paper';
 import ArticlesContext from '../storage/articlesContext';
 import theme from '../style/style';
 import STRINGS from '../utils/string';
@@ -39,15 +39,13 @@ interface Props {
 
 const CardResume = ({article}: Props) => {
   const {markedAsFavorite} = useContext(ArticlesContext);
-  const [isSelect, setIsSelect] = useState(article.isFavorite);
   const onPressOpenWebSite = useCallback(() => {
     Linking.openURL(article.url || '');
   }, [article.url]);
 
   const OnPress = useCallback(() => {
-    setIsSelect(!isSelect);
-    markedAsFavorite(article, isSelect);
-  }, [article, isSelect, markedAsFavorite]);
+    markedAsFavorite(article, !article.isFavorite);
+  }, [article, markedAsFavorite]);
 
   return (
     <View style={styles.container}>

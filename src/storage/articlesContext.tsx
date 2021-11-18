@@ -1,12 +1,10 @@
-import React, {ReactNode, useState} from 'react';
-import {createContext} from 'react';
-import {cardDefaultData} from '../utils/defaultData';
+import React, {createContext, ReactNode, useMemo, useState} from 'react';
 
 type ContextProps = {
   articles: Definitions.Article[];
-  currentArticle: Definitions.Article;
+  currentArticle?: Definitions.Article;
   saveAllArticles: (articles: Definitions.Article[]) => void;
-  saveCurrentArticle: (current: Definitions.Article) => void;
+  selectCurrentArticleId: (titleId: string) => void;
   markedAsFavorite: (current: Definitions.Article, select: boolean) => void;
 };
 
@@ -17,31 +15,34 @@ interface Props {
 }
 
 export function ArticlesContextProvider({children}: Props) {
-  const [newArticles, setNewArticles] = useState<Definitions.Article[]>([]);
-  const [selectArticle, setSelectArticle] =
-    useState<Definitions.Article>(cardDefaultData);
-  function addAllArticles(articles: Definitions.Article[]) {
-    setNewArticles(articles);
+  const [articles, setArticles] = useState<Definitions.Article[]>([]);
+  const [currentArticleId, setCurrentArticleId] = useState<string>('');
+  const currentArticle = useMemo(
+    () => articles.find(f => f.title === currentArticleId),
+    [currentArticleId, articles],
+  );
+  function addAllArticles(article: Definitions.Article[]) {
+    setArticles(article);
   }
-
-  function addCurrentArticle(article: Definitions.Article) {
-    setSelectArticle(article);
+  function selectCurrentArticleId(titleId: string) {
+    setCurrentArticleId(titleId);
   }
 
   function markAsFavorite(article: Definitions.Article, select: boolean) {
-    const temp = newArticles.map(art => ({
+    const temp = articles.map(art => ({
       ...art,
       isFavorite: art.title === article.title ? select : art.isFavorite,
     }));
 
-    setNewArticles(temp);
+    const sorted = temp.sort(a => (!a.isFavorite ? 1 : -1));
+    setArticles(sorted);
   }
 
   const context = {
-    articles: newArticles,
-    currentArticle: selectArticle,
+    articles,
+    currentArticle,
     saveAllArticles: addAllArticles,
-    saveCurrentArticle: addCurrentArticle,
+    selectCurrentArticleId,
     markedAsFavorite: markAsFavorite,
   };
 

@@ -1,12 +1,12 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {useCallback, useContext, useEffect} from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
-import {useFetch} from '../hooks/useFetch';
-import CardArticles from '../components/CardArticles';
-import ArticlesContext from '../storage/articlesContext';
 import {ActivityIndicator} from 'react-native-paper';
-import {useNavigation} from '@react-navigation/native';
-import {REACT_APP_API} from '@env';
+import CardArticles from '../components/CardArticles';
+import {useFetch} from '../hooks/useFetch';
+import ArticlesContext from '../storage/articlesContext';
 import STRINGS from '../utils/string';
+import {REACT_APP_API} from '@env';
 const styles = StyleSheet.create({
   iconDateContainer: {
     display: 'flex',
@@ -43,18 +43,21 @@ export const HomeContainer = () => {
   const {data, status} = useFetch(REACT_APP_API);
   const {navigate} = useNavigation();
 
-  const {articles, saveAllArticles, saveCurrentArticle} =
+  const {articles, saveAllArticles, selectCurrentArticleId} =
     useContext(ArticlesContext);
   useEffect(() => {
-    saveAllArticles(data as Definitions.Article[]);
-  }, [data, saveAllArticles]);
+    if (!articles.length) {
+      console.log('Data HomeContainer useEffect ', data);
+      saveAllArticles(data as Definitions.Article[]);
+    }
+  }, [articles.length, data, saveAllArticles]);
 
   const handleNavigator = useCallback(
     (article: Definitions.Article) => {
-      saveCurrentArticle(article);
+      selectCurrentArticleId(article.title);
       navigate('ResumeScreenNav' as never);
     },
-    [navigate, saveCurrentArticle],
+    [navigate, selectCurrentArticleId],
   );
 
   if (status) {
